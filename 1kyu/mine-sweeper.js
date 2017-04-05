@@ -18,32 +18,24 @@ function solveMine(map, n) {
     }
   }
 }
-//not funcitional
+
 const openAround0 = (map, x, y) => {
-  if (initializeMap[x + 1][y] ==='?') {
-    initializeMap[x + 1][y] = open(x + 1, y);
-  }
-  if (initializeMap[x + 1][y - 1] ==='?') {
-    initializeMap[x + 1][y - 1] = open(x + 1, y - 1);
-  }
-  if (initializeMap[x + 1][y + 1] ==='?') {
-    initializeMap[x + 1][y + 1] = open(x + 1, y + 1);
-  }
-  if (initializeMap[x - 1][y] ==='?') {
-    initializeMap[x - 1][y] = open(x - 1, y);
-  }
-  if (initializeMap[x - 1][y + 1] ==='?') {
-    initializeMap[x - 1][y + 1] = open(x - 1, y + 1);
-  }
-  if (initializeMap[x - 1][y - 1] ==='?') {
-    initializeMap[x - 1][y - 1] = open(x - 1, y - 1);
-  }
-  if (initializeMap[x][y + 1] ==='?') {
-    initializeMap[x][y + 1] = open(x, y + 1);
-  }
-  if (initializeMap[x][y - 1] ==='?') {
-    initializeMap[x][y - 1] = open(x, y - 1);
-  }
+  around = [
+    [1, 0],
+    [1, -1],
+    [1, 1],
+    [-1, -1],
+    [-1, 0],
+    [-1, 1],
+    [0, 1],
+    [0, -1]
+  ];
+
+  around.map(pos => {
+    if (map[x + pos[0]][y + pos[1]]) {
+      map[x + pos[0]][y + pos[1]] = open(x + pos[0], y + pos[1]);
+    }
+  });
 };
 
 //works
