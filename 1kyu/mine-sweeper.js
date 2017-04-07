@@ -8,18 +8,31 @@ var map =
 0 0 0 ? ? ?`;
 
 function solveMine(map, n) {
-
   let initializedMap = initializeMap(map);
-  while (numberOfMinesFound(initializedMap) !== n) {
-    while (lookForNumberCoords(initializedMap, 0) === []) {
-      lookForNumberCoords(initializedMap, 0).map(item => {
-        openAround0(initializedMap, item[1], item[0]);
-      });
-    }
-  }
+  // while (numberOfMinesFound(initializedMap) !== n) {
+  //   while (lookForNumberCoords(initializedMap, 0) === []) {
+  //     lookForNumberCoords(initializedMap, 0).map(item => {
+  //       initializedMap = openAround0(initializedMap, item[1], item[0]);
+  //     });
+  //   }
+  // }
+  console.log(openAround0(initializedMap,[3,3]));
 }
 
 const openAround0 = (map, x, y) => {
+  return map.map((row, rowIndex) => {
+    return row.map((item, colIndex) => {
+      if (isNextTo0([rowIndex, colIndex], map)) {
+        return open(item);
+      } else {
+        return item;
+      }
+    });
+  });
+};
+//check if a pos has a 0 around and return true or false
+//err
+const isNextTo0 = (arr, map) => {
   around = [
     [1, 0],
     [1, -1],
@@ -30,12 +43,11 @@ const openAround0 = (map, x, y) => {
     [0, 1],
     [0, -1]
   ];
-
-  around.map(pos => {
-    if (map[x + pos[0]][y + pos[1]]) {
-      map[x + pos[0]][y + pos[1]] = open(x + pos[0], y + pos[1]);
-    }
-  });
+  return around.map(item => {
+    return map[item[0] + arr[0]][item[1] + arr[1]] === 0;
+  }).find(elem => {
+    return elem === true;
+  }) === undefined ? false : true;
 };
 
 //works
@@ -55,7 +67,6 @@ const numberOfMinesFound = (map) => {
 /*No functional*/
 //works
 const lookForNumberCoords = (map, number) => {
-  let coords = [];
   map.map((array, indexRow) => {
     array.map((item, indexCol) => {
       if (map[indexRow][indexCol] === number) {
@@ -63,12 +74,9 @@ const lookForNumberCoords = (map, number) => {
       }
     });
   });
+  console.log('coords', coords);
   return coords;
 };
 
 
-console.log(lookForNumberCoords([
-  [1, 2, 3],
-  [4, 5, 6],
-  [7, 8, 9]
-], 9));
+solveMine(map, 3);
