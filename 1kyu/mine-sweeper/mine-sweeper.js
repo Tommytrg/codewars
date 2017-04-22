@@ -9,35 +9,41 @@ var map =
 
 
 function solveMine(map, n) {
-  let initializedMap = initializeMap(map);
-  // while (numberOfMinesFound(initializedMap) !== n) {
-  //   while (lookForNumberCoords(initializedMap, 0) === []) {
-  //     lookForNumberCoords(initializedMap, 0).map(item => {
-  //       initializedMap = openAround0(initializedMap, item[1], item[0]);
-  //     });
-  //   }
-  // }
-}
 
+  let initializedMap = initializeMap(map);
+  let zeroCoords = lookForNumberCoords(initializedMap,0);
+  console.log(zeroCoords)
+}
+//works
 const initializeMap = (map) => {
   return map.split('\n').map(item => {
     return item.split(' ');
   });
 };
-
+//works
 const lookForNumberCoords = (grid, number) => {
-  console.log(typeof grid);
-  grid.map((array, indexRow) => {
-    array.map((item, indexCol) => {
-      if (grid[indexRow][indexCol] === number) {
-        coords.push([indexRow, indexCol]);
+  let coords =
+  grid.map((row,indexRow) =>{
+    return row.map((item,indexCol)=>{ 
+      if(parseInt(item) === number){
+        return indexCol;
       }
+    }).map((elem,indx) => {
+      //indx === col index
+      if(elem !== undefined){
+        return [indx,indexRow]
+      }
+    }).filter(itm => {
+      return itm !== undefined;
     });
+  }).filter(arr => {
+    return arr.length !== 0;
   });
-  //console.log('coords', coords);
-  return coords;
+  return [].concat.apply([], coords);
 };
 
+
+//console.log(lookForNumberCoords(initializeMap(map),0));
 
 solveMine(map, 3);
 
