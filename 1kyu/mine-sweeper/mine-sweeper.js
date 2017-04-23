@@ -20,9 +20,12 @@ function solveMine(map,mapOpen, n) {
   let initializedMap = initializeMap(map);
   let zeroCoords = lookForNumberCoords(initializedMap,0);
   //write open around a coord
-  open([0,0], initializedMap, mapOpen);
+  for(let i = 0; i < zeroCoords.length; i++){
+    openAroundCoord(zeroCoords[i],initializedMap,mapOpen);
+  }
   //no hace falta igualar porque es la referencia
   console.log(initializedMap)
+  console.log('last')
 }
 
 
@@ -54,13 +57,23 @@ const lookForNumberCoords = (grid, number) => {
   return [].concat.apply([], coords);
 };
 
-const open = (pos, map, openMap) => {
-  console.log(map[pos[0]][pos[1]]);
-  map[pos[0]][pos[1]] = openMap[pos[0]][pos[1]];
-  map[pos[0]][pos[1]]
+const open = (coord, map, openMap) => {
+  map[coord[0]][coord[1]] = openMap[coord[0]][coord[1]];
 };
 
-
+const openAroundCoord = (coord, map, openMap) => {
+  for(let i = -1; i < 2; i++){
+    for(let j = -1; j < 2; j++){
+      console.log('i',coord[0])
+      //console.log(map[coord[0]+i][coord[1]+j])
+      
+      // if(map[coord[0]+i][coord[1]+j] === '?'){
+      //   console.log('inside')
+      //   open([coord[0]+i,coord[1]+j], map, openMap);
+      // }
+    }
+  }
+}
 //console.log(lookForNumberCoords(initializeMap(map),0));
 
 solveMine(map, mapOpen, 3);
