@@ -7,20 +7,32 @@ var map =
 ? ? ? ? ? ?
 0 0 0 ? ? ?`;
 
+var mapOpen = 
+`1 X 1 1 X 1
+ 2 2 2 1 2 1
+ 2 X 2 0 1 X
+ 2 X 2 1 2 2
+ 1 1 1 1 X 1
+ 0 0 0 1 1 1`;
 
-function solveMine(map, n) {
 
+function solveMine(map,mapOpen, n) {
   let initializedMap = initializeMap(map);
   let zeroCoords = lookForNumberCoords(initializedMap,0);
-  console.log(zeroCoords)
+  //write open around a coord
+  open([0,0], initializedMap, mapOpen);
+  //no hace falta igualar porque es la referencia
+  console.log(initializedMap)
 }
-//works
+
+
+//works tested
 const initializeMap = (map) => {
   return map.split('\n').map(item => {
     return item.split(' ');
   });
 };
-//works
+//works tested
 const lookForNumberCoords = (grid, number) => {
   let coords =
   grid.map((row,indexRow) =>{
@@ -42,10 +54,16 @@ const lookForNumberCoords = (grid, number) => {
   return [].concat.apply([], coords);
 };
 
+const open = (pos, map, openMap) => {
+  console.log(map[pos[0]][pos[1]]);
+  map[pos[0]][pos[1]] = openMap[pos[0]][pos[1]];
+  map[pos[0]][pos[1]]
+};
+
 
 //console.log(lookForNumberCoords(initializeMap(map),0));
 
-solveMine(map, 3);
+solveMine(map, mapOpen, 3);
 
 module.exports = {
     initializeMap: initializeMap,
