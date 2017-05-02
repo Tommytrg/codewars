@@ -1,5 +1,4 @@
 function List() {}
-
 function EmptyList() {
 	this.value = '';
 	this.next = {};
@@ -12,17 +11,11 @@ EmptyList.prototype.isEmpty = function() { /* implement this */ };
 EmptyList.prototype.length = function() { /* implement this */ };
 //works
 EmptyList.prototype.push = function(x) { 
-
-	let followValue = this.value;
-	let followNext = this.next;
-	do{
-		if(Object.keys(followValue).length === 0){
-			followValue.value = x;
-			followValue.next = new EmptyList();
-		}else{
-			followValue = followValue.next;
-		}
-	}while(Object.keys(followValue).length === 0);
+	if(this.value === ''){
+		this.value = x;
+	}else{
+		
+	}
 };
 
 EmptyList.prototype.remove = function(x) { /* implement this */ };
@@ -50,6 +43,6 @@ module.exports = {
 //Pruebas
 
 let el = new EmptyList();
+console.log(el);
 el.push(1)
-el.push(2);
-console.log( el);
+console.log(el)
