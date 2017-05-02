@@ -13,7 +13,20 @@ EmptyList.prototype.length = function() { /* implement this */ };
 EmptyList.prototype.push = function(x) { 
 	if(this.value === ''){
 		this.value = x;
+		this.next = new EmptyList();
 	}else{
+	 	let aux = this.next;
+		let find = false;
+    while(!find){
+			if(aux.value === ''){
+				aux.value = x;
+				aux.next = new EmptyList();
+				find = true;
+			}else{
+				aux = aux.next;
+			}
+		}
+
 		
 	}
 };
@@ -42,7 +55,3 @@ module.exports = {
 
 //Pruebas
 
-let el = new EmptyList();
-console.log(el);
-el.push(1)
-console.log(el)
