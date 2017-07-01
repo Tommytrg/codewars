@@ -1,11 +1,17 @@
+// const board = [
+//   ['-', '-', '-', '-', '-', '-', '-'],
+// ['-', '-', '-', '-', '-', '-', '-'],
+// ['Y', '-', '-', '-', '-', '-', '-'],
+// ['R', 'Y', '-', '-', '-', '-', '-'],
+// ['R', 'R', 'Y', '-', '-', '-', '-'],
+// ['R', 'Y', 'R', 'Y', '-', '-', '-']];
 const board = [
-  ['-', '-', '-', '-', '-', '-', '-'],
-['-', '-', '-', '-', '-', '-', '-'],
-['Y', '-', '-', '-', '-', '-', '-'],
-['R', 'Y', '-', '-', '-', '-', '-'],
-['R', 'R', 'Y', '-', '-', '-', '-'],
-['R', 'Y', 'R', 'Y', '-', '-', '-']];
-
+  ['Y', 'R', 'Y', 'R', 'Y', 'R', 'Y'],
+ ['R', 'Y', 'R', 'R', 'Y', 'R', 'Y'],
+ ['Y', 'Y', 'R', 'R', 'R', 'Y', 'R'],
+ ['R', 'R', 'Y', 'Y', 'Y', 'R', 'Y'],
+ ['Y', 'Y', 'Y', 'R', 'Y', 'R', 'Y'],
+ ['R', 'Y', 'R', 'R', 'R', 'Y', 'R']];
 // const board = [
 //              ['7', '6', '5', '4', '3', '2', '1'],
 //              ['8', '7', '6', '5', '4', '3', '2'],
@@ -13,6 +19,13 @@ const board = [
 //              ['10', '9', '8', '7', '6', '5', '4'],
 //              ['11', '10', '9', '8', '7', '6', '5'],
 //              ['12', '11', '10', '9', '8', '7', '6']];
+// const board = [
+//              ['1', '2', '3', '4', '5', '6', '7'],
+//              ['2', '3', '4', '5', '6', '7', '8'],
+//              ['3', '4', '5', '6', '7', '8', '9'],
+//              ['4', '5', '6', '7', '8', '9', '10'],
+//              ['5', '6', '7', '8', '9', '10', '11'],
+//              ['6', '7', '8', '9', '10', '11', '12']];
 
 const transposeMatrix = array => array[0].map((col, i) => array.map(row => row[i]));
 
@@ -55,7 +68,6 @@ const getDiagonalsLeft = (matrix) => {
 const getDiagonalsRight = (matrix) => {
   const lines = [];
   let line = [];
-
   let row = 0;
   let col;
   while (row < matrix.length) {
@@ -70,7 +82,6 @@ const getDiagonalsRight = (matrix) => {
     lines.push(line);
     row += 1;
   }
-
   col = matrix.length - 1;
   while (col >= 0) {
     line = [];
@@ -88,7 +99,6 @@ const getDiagonalsRight = (matrix) => {
 };
 
 const checkLine = (line) => {
-  console.log('line', line);
   if (line.length > 3) {
     for (let i = 0; i < line.length - 3; i += 1) {
       if (line[i] === 'R' && line[i + 1] === 'R' && line[i + 2] === 'R' && line[i + 3] === 'R') return 'R';
@@ -98,21 +108,32 @@ const checkLine = (line) => {
   return 'in progress';
 };
 
-
 function connectFour(matrix) {
-  const vertically = transposeMatrix(matrix);
-  const diagonalsLeft = getDiagonalsLeft(matrix);
-  const diagonalsRight = getDiagonalsRight(matrix);
+  const lines = [
+    matrix,
+    transposeMatrix(matrix),
+    getDiagonalsLeft(matrix),
+    getDiagonalsRight(matrix),
+  ];
 
-  const lines = [matrix, vertically, diagonalsLeft, diagonalsRight];
-  return lines.reduce((ant, act) => {
-    if (ant === 'R' || ant === 'Y') return ant;
-    return act.reduce((vie, nuev) => {
-      if (vie === 'R' || vie === 'Y') return vie;
-      return checkLine(nuev);
+  const result = lines.reduce((a, b) => {
+    if (a === 'R' || a === 'Y') return a;
+    return b.reduce((c, d) => {
+      if (c === 'R' || c === 'Y') return c;
+      return checkLine(d);
     }, '');
   }, '');
+  if (result === 'R') return 'R';
+  if (result === 'Y') return 'Y';
+  if (result === 'in progress') {
+    for (let i = 0; i < lines.length; i += 1) {
+      for (let j = 0; j < lines[i].length; j += 1) {
+        if (lines[i][j].indexOf('-') !== -1) return 'in progress';
+      }
+    }
+  }
+  return 'draw';
 }
 
-const result = connectFour(board);
-console.log(result);
+const x = connectFour(board);
+console.log(x);
