@@ -4,7 +4,7 @@ const EmptyList = require('./functional-lists').emptyList;
 
 describe('EmptyList', () => {
 	it('should push correctly one value', () => {
-		 let el = new EmptyList();
+  let el = new EmptyList();
 		 el.push(1)
 		expect(el.value).to.equal(1);
 	});
