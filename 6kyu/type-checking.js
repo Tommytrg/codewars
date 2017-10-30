@@ -70,7 +70,7 @@ const checkObject = (val) => {
       return 'Array';
       //return 'Object';
     }else{
-      if(JSON.stringify(a).indexOf(':')!== -1){
+      if(JSON.stringify(val).indexOf(':')!== -1){
         return 'Object';
       }else{
 
@@ -83,5 +83,5 @@ const checkObject = (val) => {
 
 function custom(){ }
 const a = {b:1};
-console.log(JSON.stringify(a));
+// console.log(JSON.stringify(a));
 //console.log(type(new custom()));
